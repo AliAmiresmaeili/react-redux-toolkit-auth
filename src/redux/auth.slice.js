@@ -1,22 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchWrapper, history } from "../utils";
+const baseUrl = `${process.env.REACT_APP_API_URL}/users`;
 
 const name = "auth";
-const initialState = createInitialState();
+const initialState = {
+  user: JSON.parse(localStorage.getItem("user")),
+  error: null,
+};
 const reducers = createReducers();
 const extraActions = createExtraActions();
 const extraReducers = createExtraReducers();
 const slice = createSlice({ name, initialState, reducers, extraReducers });
-
-export const authActions = { ...slice.actions, ...extraActions };
-export const authReducer = slice.reducer;
-
-function createInitialState() {
-  return {
-    user: JSON.parse(localStorage.getItem("user")),
-    error: null,
-  };
-}
 
 function createReducers() {
   return {
@@ -31,8 +25,6 @@ function createReducers() {
 }
 
 function createExtraActions() {
-  const baseUrl = `${process.env.REACT_APP_API_URL}/users`;
-
   return {
     login: login(),
   };
@@ -62,7 +54,7 @@ function createExtraReducers() {
       },
       [fulfilled]: (state, action) => {
         const user = action.payload;
-        localStorage.setItem(JSON.stringify(user));
+        localStorage.setItem("user", JSON.stringify(user));
         state.user = user;
         const { from } = history.location.state || { from: { pathname: "/" } };
         history.navigate(from);
@@ -73,3 +65,6 @@ function createExtraReducers() {
     };
   }
 }
+
+export const authActions = { ...slice.actions, ...extraActions };
+export const authReducer = slice.reducer;

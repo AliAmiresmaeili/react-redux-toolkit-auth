@@ -1,2 +1,2 @@
-export * from "./Nav";
+export * from "./Nav.jsx";
 export * from "./PrivateRoute";

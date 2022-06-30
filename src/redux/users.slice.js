@@ -1,23 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchWrapper } from "../utils";
+const baseUrl = `${process.env.REACT_APP_API_URL}/users`;
 
 const name = "users";
-const initialState = createInitialState();
+const initialState = { users: [] };
 const extraActions = createExtraActions();
 const extraReducers = createExtraReducers();
 const slice = createSlice({ name, initialState, extraReducers });
 
-export const userActions = { ...slice.actions, ...extraActions };
-export const usersReducer = slice.reducer;
-
-function createInitialState() {
-  return {
-    users: [],
-  };
-}
-
 function createExtraActions() {
-  const baseUrl = `${process.env.REACT_APP_API_URL}/users`;
   return {
     getAll: getAll(),
   };
@@ -50,3 +41,6 @@ function createExtraReducers() {
     };
   }
 }
+
+export const userActions = { ...slice.actions, ...extraActions };
+export const usersReducer = slice.reducer;

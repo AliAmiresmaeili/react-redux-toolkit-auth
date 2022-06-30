@@ -1,7 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
+import { NavLink } from "react-router-dom";
 import { authActions } from "../redux/store";
 
-export default function Nav() {
+const Nav = () => {
   const authUser = useSelector((x) => x.auth.user);
   const dispatch = useDispatch();
   const logout = () => dispatch(authActions.logout());
@@ -20,4 +21,6 @@ export default function Nav() {
       </div>
     </nav>
   );
-}
+};
+
+export default Nav;
